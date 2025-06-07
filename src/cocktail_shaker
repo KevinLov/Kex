@@ -1,0 +1,79 @@
+from knowledge import Game
+
+def build_game():
+    locations = [0, 1, 2, 3, 4, 5, 6]
+    agent_obs = ([[0], [1], [2], [3], [4], [5], [6]], [[0], [1, 2, 3, 4], [5], [6]])
+    agent_actions = ({"i", "r", "l", "s"}, {"i", "r", "l", "s"})
+    start_location = 0
+    agents = [0, 1]
+    transitions = [
+        # from start (0)
+        (0, ("i","i"), 2),  # start g,g → left 1
+        (0, ("i","i"), 1),  # start g,g → right 1
+
+        # from left (1)
+        (1, ("l","l"), 1),  # left l,l → left 1
+        (1, ("r","r"), 4),  # left r,r → right 2
+        (1, ("l","r"), 6),  # left l,r → lose
+        (1, ("l","s"), 6),  # left l,s → lose
+        (1, ("r","s"), 6),  # left r,s → lose
+        (1, ("r","l"), 6),  # left r,l → lose
+        (1, ("s","s"), 6),  # left l,r → lose
+        (1, ("s","r"), 6),  # left l,r → lose
+        (1, ("s","l"), 6),  # left l,r → lose
+
+        # from right (1)
+        (2, ("l","l"), 3),  # left l,l → left 1
+        (2, ("r","r"), 2),  # left r,r → right 2
+        (2, ("l","r"), 6),  # left l,r → lose
+        (2, ("l","s"), 6),  # left l,s → lose
+        (2, ("r","s"), 6),  # left r,s → lose
+        (2, ("r","l"), 6),  # left r,l → lose
+        (2, ("s","s"), 6),  # left l,r → lose
+        (2, ("s","r"), 6),  # left l,r → lose
+        (2, ("s","l"), 6),  # left l,r → lose
+
+        # from left (2)
+        (3, ("l","l"), 3),  # left l,l → left 1
+        (3, ("r","r"), 4),  # left r,r → right 2
+        (3, ("l","r"), 6),  # left l,r → lose
+        
+        (3, ("l","s"), 6),  # left l,s → lose
+        (3, ("r","s"), 6),  # left r,s → lose
+        (3, ("r","l"), 6),  # left r,l → lose
+        (3, ("s","s"), 5),  # left l,r → WIN
+        (3, ("s","r"), 6),  # left l,r → lose
+        (3, ("s","l"), 6),  # left l,r → lose
+
+        # from right (2)
+        (4, ("l","l"), 3),  # left l,l → left 1
+        #(4, ("r","r"), 4), # left r,r → right 2
+        (4, ("l","r"), 6),  # left l,r → lose
+        
+        (4, ("l","s"), 6),  # left l,s → lose
+        (4, ("r","s"), 6),  # left r,s → lose
+        (4, ("r","l"), 6),  # left r,l → lose
+        (4, ("s","s"), 5),  # left l,r → WIN
+        (4, ("s","r"), 6),  # left l,r → lose
+        (4, ("s","l"), 6),  # left l,r → lose
+
+        # from win 
+        (5, ("s","s"), 5),  
+
+        # from lose 
+        (6, ("s","s"), 6),  
+    ]
+    knowledge_levels = {
+        0: 2,
+        1: 1
+    }
+
+    return Game(
+        locations=locations,
+        start_location=start_location,
+        agents=agents,
+        transistions=transitions,
+        agent_actions=agent_actions,
+        agent_obs=agent_obs,
+        knowledge_levels=knowledge_levels
+    )
